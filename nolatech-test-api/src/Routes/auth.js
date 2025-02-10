@@ -5,7 +5,6 @@ const {
 const passwordHash = require("password-hash");
 const jsonwebtoken = require("jsonwebtoken");
 const { TOKEN_EXPIRATION, TOKEN_SECRET } = require("../utils/envars");
-const { verifyToken, Authorize } = require("../authentication");
 const { ROLES } = require("../constants/roles");
 const { validateData } = require("../utils/validation");
 
@@ -23,7 +22,7 @@ Router.post(
     }),
   ],
   ({ body }, res) => {
-    createUser({
+    return createUser({
       firstname: body.firstname,
       lastname: body.lastname,
       username: body.username,
@@ -31,7 +30,6 @@ Router.post(
       password: passwordHash.generate(body.password),
       role: ROLES.EMPLOYEE,
     }).then((response) => res.send(response));
-    res.send();
   }
 );
 
